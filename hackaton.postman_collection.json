@@ -1,0 +1,561 @@
+{
+	"info": {
+		"_postman_id": "5044b4b7-ea38-4970-916d-a913a7a8e647",
+		"name": "hackaton",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "8049841"
+	},
+	"item": [
+		{
+			"name": "users-service",
+			"item": [
+				{
+					"name": "register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"DrZinho\",\r\n  \"email\": \"advpl.devair@gmail.com\",\r\n  \"password\": \"123\",\r\n  \"cpf\": \"1234567890\",\r\n  \"crm\": \"777888999\",\r\n  \"role\": \"Doctor\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{users-url}}/users/register",
+							"host": [
+								"{{users-url}}"
+							],
+							"path": [
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "patient",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"Paciente 1\",\r\n  \"email\": \"paciente@gmail.com\",\r\n  \"password\": \"123\",\r\n  \"cpf\": \"17714212223\",\r\n  \"role\": \"Patient\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{users-url}}/users/register",
+									"host": [
+										"{{users-url}}"
+									],
+									"path": [
+										"users",
+										"register"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "57"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"39-RG9951uS7c729Ply01uRQzsGdGE\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 20 Sep 2024 23:40:09 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 3,\n    \"name\": \"Paciente 1\",\n    \"email\": \"paciente@gmail.com\"\n}"
+						},
+						{
+							"name": "doctor",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"DrZinho\",\r\n  \"email\": \"advpl.devair@gmail.com\",\r\n  \"password\": \"123\",\r\n  \"cpf\": \"1234567890\",\r\n  \"crm\": \"777888999\",\r\n  \"role\": \"Doctor\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{users-url}}/users/register",
+									"host": [
+										"{{users-url}}"
+									],
+									"path": [
+										"users",
+										"register"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "69"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"45-d2iEfRQ0kmo5IEA9MOvJzVP/EnA\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 20 Sep 2024 23:40:52 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"User already exists with these parameters: cpf or email\"\n}"
+						}
+					]
+				},
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = responseBody;\r",
+									"pm.collectionVariables.set(\"token\",jsonData);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{  \r\n  \"email\": \"paciente@gmail.com\",\r\n  \"password\": \"123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{users-url}}/users/login",
+							"host": [
+								"{{users-url}}"
+							],
+							"path": [
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "doctor",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{  \r\n  \"email\": \"advpl.devair@gmail.com\",\r\n  \"password\": \"123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{users-url}}/users/login",
+									"host": [
+										"{{users-url}}"
+									],
+									"path": [
+										"users",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "196"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"c4-HzEyksECRJb8kfdfxSjLJZpIIlo\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 20 Sep 2024 23:29:49 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRyemluaG9AZ21haWwuY29tIiwicm9sZSI6IkRvY3RvciIsImlkIjoyLCJpYXQiOjE3MjY4NzQ5ODksImV4cCI6MTcyNjg3ODU4OX0.0Mc3AM5fKEjg0KLXNp6is5btP8YMnZrh68fIvHM6Y8o"
+						},
+						{
+							"name": "patient",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{  \r\n  \"email\": \"paciente@gmail.com\",\r\n  \"password\": \"123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{users-url}}/users/login",
+									"host": [
+										"{{users-url}}"
+									],
+									"path": [
+										"users",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "199"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"c7-AH/zU7ZI9UHyzneCTzszlYE0xUA\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 20 Sep 2024 23:41:40 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBhY2llbnRlQGdtYWlsLmNvbSIsInJvbGUiOiJQYXRpZW50IiwiaWQiOjMsImlhdCI6MTcyNjg3NTcwMCwiZXhwIjoxNzI2ODc5MzAwfQ.woIMazTQSskT0CGaFyd_7zW-FQwv2LBrAjMN9-CRx7o"
+						}
+					]
+				}
+			],
+			"description": "Serviço de criação e autenticação de usuários"
+		},
+		{
+			"name": "appointments-service",
+			"item": [
+				{
+					"name": "patient`s methods",
+					"item": [
+						{
+							"name": "create-appointments",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"doctorId\": 1,\r\n    \"patientId\": 1,\r\n    \"slotId\": 3\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{appointments-url}}/doctors/appointments",
+									"host": [
+										"{{appointments-url}}"
+									],
+									"path": [
+										"doctors",
+										"appointments"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "doctor`s methods",
+					"item": [
+						{
+							"name": "create-slot",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{  \r\n  \"startTime\": \"2024-09-30T11:00:00\",\r\n  \"endTime\": \"2024-09-30T11:30:00\",\r\n  \"isAvailable\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{appointments-url}}/doctors/available-slots",
+									"host": [
+										"{{appointments-url}}"
+									],
+									"path": [
+										"doctors",
+										"available-slots"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "edit-slot",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{  \r\n  \"startTime\": \"2024-09-30T09:00:00\",\r\n  \"endTime\": \"2024-09-30T10:00:00\",\r\n  \"isAvailable\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{appointments-url}}/doctors/available-slots/3",
+									"host": [
+										"{{appointments-url}}"
+									],
+									"path": [
+										"doctors",
+										"available-slots",
+										"3"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "list-doctors",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"DrZinho\",\r\n  \"email\": \"drzinho@gmail.com\",\r\n  \"password\": \"123\",\r\n  \"cpf\": \"1234567890\",\r\n  \"crm\": \"777888999\",\r\n  \"role\": \"Doctor\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{appointments-url}}/doctors",
+							"host": [
+								"{{appointments-url}}"
+							],
+							"path": [
+								"doctors"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "doctor`s-available-slots",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"DrZinho\",\r\n  \"email\": \"drzinho@gmail.com\",\r\n  \"password\": \"123\",\r\n  \"cpf\": \"1234567890\",\r\n  \"crm\": \"777888999\",\r\n  \"role\": \"Doctor\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{appointments-url}}/doctors/available-slots/1",
+							"host": [
+								"{{appointments-url}}"
+							],
+							"path": [
+								"doctors",
+								"available-slots",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Serviço de cadastro de médicos, pacientes e consultas médicas"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "users-url",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "appointments-url",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "",
+			"type": "string"
+		}
+	]
+}

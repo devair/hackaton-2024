@@ -1,0 +1,161 @@
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "15672:15672" # RabbitMQ Management UI
+      - "5672:5672"   # RabbitMQ AMQP port
+    
+    healthcheck:
+      test: ["CMD", "rabbitmqctl", "status"]
+      interval: 10s
+      retries: 5
+      start_period: 20s
+      timeout: 5s
+
+    networks:
+      - app-network
+  
+  users-service:
+    build: 
+      context: ./users-service
+      dockerfile: Dockerfile          
+    container_name: users-app    
+    ports:
+      - 3333:3333
+      - 9229:9229 #porta para debug
+    volumes:
+      - ./src:/usr/src/app/src 
+
+    environment:                  
+      - APP_PORT=3333
+      - DB_DATABASE=users_db
+      - DB_USER=docker
+      - DB_PASS=docker
+      - DB_HOST=users-postgres-db
+      - DB_PORT=5432
+      - RABBITMQ_URL=amqp://rabbitmq
+      - JWT_SECRET=MySecret
+    depends_on:
+      users-postgres-db:
+        condition: service_started
+        restart: true
+        required: true
+      rabbitmq:
+        condition: service_healthy
+        required: true      
+        restart: true
+
+    networks:
+      - app-network
+  
+  users-postgres-db:
+    image: postgres
+    container_name: users-postgres-db
+    restart: always
+    ports:
+      - 5432:5432
+    environment: 
+      - POSTGRES_USER=docker
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_DB=users_db      
+    volumes:
+      - pgdata:/data/postgres
+      
+    networks:
+      - app-network
+    depends_on:
+      rabbitmq:
+        condition: service_started
+        restart: true
+
+  appointments-service:
+    build: 
+      context: ./appointments-service
+      dockerfile: Dockerfile          
+    container_name: appointments-app    
+    ports:
+      - 3334:3334
+      - 9230:9230 #porta para debug
+    volumes:
+      - ./src:/usr/src/app/src 
+
+    environment:                  
+      - APP_PORT=3334
+      - DB_DATABASE=appointments_db
+      - DB_USER=docker
+      - DB_PASS=docker
+      - DB_HOST=appointments-postgres-db
+      - DB_PORT=5432
+      - RABBITMQ_URL=amqp://rabbitmq
+      - JWT_SECRET=MySecret
+    depends_on:
+      appointments-postgres-db:
+        condition: service_started
+        restart: true
+        required: true
+      rabbitmq:
+        condition: service_healthy
+        required: true      
+        restart: true
+
+    networks:
+      - app-network
+  
+  appointments-postgres-db:
+    image: postgres
+    container_name: appointments-postgres-db
+    restart: always
+    ports:
+      - 5433:5432
+    environment: 
+      - POSTGRES_USER=docker
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_DB=appointments_db
+      - TZ = "America/Sao_Paulo"  # Define o fuso horário
+    volumes:
+      - pgdata:/data/postgres      
+    networks:
+      - app-network
+    depends_on:
+      rabbitmq:
+        condition: service_started
+        restart: true
+
+  notification-service:
+    build: 
+      context: ./notification-service
+      dockerfile: Dockerfile          
+    container_name: notification-app    
+    ports:
+      - 3000:3000
+      - 9231:9231 #porta para debug
+    volumes:
+      - ./src:/usr/src/app/src 
+
+    environment:                        
+      - EMAIL_HOST=smtp.mailersend.net
+      - EMAIL_PORT=587
+      - EMAIL_USER=MS_Rl3rt6@trial-3z0vklo200747qrx.mlsender.net
+      - EMAIL_PASS=FJokjKYVOKujFcya
+      - EMAIL_FROM=teste@trial-3z0vklo200747qrx.mlsender.net    
+      - RABBITMQ_URL=amqp://rabbitmq  
+    depends_on:
+      appointments-service:
+        condition: service_started
+        restart: true
+        required: true
+      rabbitmq:
+        condition: service_healthy
+        required: true      
+        restart: true
+
+    networks:
+      - app-network
+networks:
+  app-network:
+    driver: bridge
+
+volumes:  
+  pgdata:
+    driver: local      
